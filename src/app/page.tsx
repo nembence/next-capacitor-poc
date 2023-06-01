@@ -1,7 +1,13 @@
 "use client";
 import { Camera, CameraResultType } from "@capacitor/camera";
+import Image from "next/image";
+import { useState } from "react";
+import { BiometryType, NativeBiometric } from "capacitor-native-biometric";
 
 export default function Home() {
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
   const getImage = async () => {
     const image = await Camera.getPhoto({
       quality: 90,
@@ -15,12 +21,39 @@ export default function Home() {
     // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
     const imageUrl = image.webPath;
 
-    return imageUrl;
+    setSelectedImage(imageUrl ?? "");
+  };
+
+  const authenticateBiometric = async () => {
+    const result = await NativeBiometric.isAvailable();
+
+    if (!result.isAvailable) return;
+
+    const isFaceID = result.biometryType == BiometryType.FACE_ID;
+    console.log(isFaceID);
+
+    await NativeBiometric.verifyIdentity({
+      reason: "For easy log in",
+      title: "Log in",
+    })
+      .then(() => setIsAuthenticated(true))
+      .catch(() => setIsAuthenticated(false));
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <button onClick={getImage}>Select image</button>
+    <main className="flex min-h-screen flex-col items-center n p-24">
+      <button onClick={getImage}>Select images</button>
+      <Image
+        width={300}
+        height={400}
+        className="mt-10"
+        src={selectedImage}
+        alt="selected-image"
+      />
+      <button className="mt-10" onClick={authenticateBiometric}>
+        Authenticate with FaceID
+      </button>
+      <div>{isAuthenticated ? "Authenticated" : "Not authenticated yet"}</div>
     </main>
   );
 }

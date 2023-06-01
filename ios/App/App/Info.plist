@@ -36,6 +36,8 @@
 	<string>Allow photo library usage for the app</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Allow photo library adding for the app</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>For an easier and faster log in.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
