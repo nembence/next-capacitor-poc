@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">next-capacitor-poc</string>
+    <string name="title_activity_main">next-capacitor-poc</string>
+    <string name="package_name">com.next.app</string>
+    <string name="custom_url_scheme">com.next.app</string>
+</resources>
